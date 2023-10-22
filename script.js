@@ -68,7 +68,7 @@ const VoiceRSS = {
       (e.ssml || "") +
       "&b64=true" +
       "&v=" +
-      (e.v || "") // add the v property to the request
+      (e.v || "")
     );
   },
   _detectCodec: function () {
@@ -108,19 +108,19 @@ const VoiceRSS = {
   },
 };
 
-// function test() {
-//   VoiceRSS.speech({
-//     key: "c597d12c35764cacb3812cc33a814f55",
-//     src: "Hello, world!",
-//     hl: "en-us",
-//     v: "Linda",
-//     r: 0,
-//     c: "mp3",
-//     f: "44khz_16bit_stereo",
-//     ssml: false,
-//   });
-// }
-// test();
+//Passing joke to VoiceRSS API
+function tellJoke(joke) {
+  VoiceRSS.speech({
+    key: "c597d12c35764cacb3812cc33a814f55",
+    src: joke,
+    hl: "en-us",
+    v: "Linda",
+    r: 0,
+    c: "mp3",
+    f: "44khz_16bit_stereo",
+    ssml: false,
+  });
+}
 
 async function getJokes() {
   try {
@@ -134,7 +134,7 @@ async function getJokes() {
     } else {
       joke = data.joke;
     }
-    console.log(joke);
+    tellJoke(joke);
   } catch (error) {
     //error
   }
