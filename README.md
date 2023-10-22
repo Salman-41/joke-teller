@@ -20,13 +20,13 @@ Joke Teller is a simple web application that fetches programming and pun jokes f
 
 ## How to Use
 
-1. Clone this repository to your local machine:
+Clone this repository to your local machine:
 
-   ```bash
-    git clone https://github.com/Salman-41/joke-teller.git
-    Open the index.html file in your web browser.
-    Click the "Tell Me a Joke" button to fetch and hear a joke.
-   ```
+```bash
+ git clone https://github.com/Salman-41/joke-teller.git
+ Open the index.html file in your web browser.
+ Click the "Tell Me a Joke" button to fetch and hear a joke.
+```
 
 ## Screenshots
 
