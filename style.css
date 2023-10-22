@@ -49,6 +49,13 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Error Handling */
+.error {
+  color: red;
+  text-align: center;
+  font-weight: bold;
+}
+
 /* Media Query: Tablet or Smaller */
 @media screen and (max-width: 1000px) {
   .container {

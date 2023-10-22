@@ -1,6 +1,18 @@
 //DOM Elements
 const button = document.getElementById("btn");
 const audioElement = document.getElementById("audio");
+const errorElement = document.getElementById("error");
+
+// Error handling function
+function showError(message) {
+  errorElement.textContent = message;
+  errorElement.style.display = "block";
+}
+
+function clearError() {
+  errorElement.textContent = "";
+  errorElement.style.display = "none";
+}
 
 // VoiceRSS Javascript SDK
 const VoiceRSS = {
@@ -109,45 +121,63 @@ const VoiceRSS = {
 };
 
 //Enable/Disable Button
-//Enable/Disable Button
 function toggleButton() {
   button.disabled = !button.disabled;
 }
 
 //Passing joke to VoiceRSS API
 function tellJoke(joke) {
-  VoiceRSS.speech({
-    key: "c597d12c35764cacb3812cc33a814f55",
-    src: joke,
-    hl: "en-us",
-    v: "Linda",
-    r: 0,
-    c: "mp3",
-    f: "44khz_16bit_stereo",
-    ssml: false,
-  });
+  VoiceRSS.speech(
+    {
+      key: "c597d12c35764cacb3812cc33a814f55",
+      src: joke,
+      hl: "en-us",
+      v: "Linda",
+      r: 0,
+      c: "mp3",
+      f: "44khz_16bit_stereo",
+      ssml: false,
+    },
+    function (error) {
+      if (error) {
+        showError(
+          "An error occurred while processing the joke. Please try again."
+        );
+      }
+    }
+  );
 }
 
 async function getJokes() {
   try {
+    clearError(); // Clear any previous errors
     let joke = "";
     const apiUrl =
       "https://v2.jokeapi.dev/joke/Programming,Pun?blacklistFlags=nsfw,religious,political,racist,sexist,explicit";
     const response = await fetch(apiUrl);
+    if (!response.ok) {
+      showError("Failed to fetch jokes. Please try again later.");
+      return;
+    }
     const data = await response.json();
     if (data.setup) {
       joke = `${data.setup} ... ${data.delivery}`;
     } else {
       joke = data.joke;
     }
-    //text-to-speach
+    // Text-to-speech
     tellJoke(joke);
-    //disable button
+    // Disable button
     toggleButton();
   } catch (error) {
-    //error
+    showError(
+      "An error occurred while fetching jokes. Please try again later."
+    );
   }
 }
 
 button.addEventListener("click", getJokes);
 audioElement.addEventListener("ended", toggleButton);
+
+// Clear error after 5 seconds (5000 milliseconds)
+setTimeout(clearError, 5000);
